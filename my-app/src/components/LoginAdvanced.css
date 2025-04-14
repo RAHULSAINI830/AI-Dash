@@ -1,0 +1,185 @@
+/* src/components/LoginAdvanced.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Use a full-screen background image */
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Set the background image (ensure the path is correct) */
+  background: url("https://zentrades.pro/wp-content/uploads/2025/04/Untitled-design-10.png") no-repeat center center/cover;
+  padding: 1rem;
+  color: whitesmoke;
+  overflow: hidden;
+}
+
+/* Remove any pseudo-elements previously used for gradients or waves */
+
+/* Company logo fixed in the top-left corner */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  
+}
+.custom-recaptcha {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center; /* center the captcha horizontally */
+  transform: scale(0.95);  /* scale it down slightly */
+  transform-origin: 0 0;  
+ 
+  color: #ffffff54; /* control the anchor point for scaling */
+}
+/* Reset styles for reCAPTCHA widget */
+.rc-anchor-light.rc-anchor-normal, .rc-anchor-light.rc-anchor-compact {
+  /* Reset background to default */
+  background: none !important;
+}
+
+.recaptcha-checkbox-border {
+  /* Reset background-color to default */
+  background-color: transparent !important;
+}
+
+
+@media (max-width: 500px) {
+  .custom-recaptcha {
+    transform: scale(0.85);
+  }
+}
+
+
+.login-logo {
+  max-height: 60px;
+}
+
+/* Login Container: White card with padding, rounded corners, border, and shadow */
+.login-container {
+  background-color: #ffffff78;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem 3rem;
+  border-radius: 14px;
+  border: 1px solid rgba(201, 201, 201, 0.236);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.6s ease;
+  z-index: 1;
+}
+
+.login-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #000000;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-weight: 800 !important;
+    color: #000000 !important;
+    font-size: 18px;
+}
+
+
+.input-group input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1rem;
+  background-color: #ffffff8e;
+}
+
+.input-group input:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.25);
+}
+
+.password-group {
+  position: relative;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 45px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+  color: #888;
+  font-size: 1.2rem;
+}
+
+.login-btn {
+  background-color:  #2E1658;
+  color: #fff;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.login-message {
+  margin-top: 1rem;
+  text-align: center;
+  color: #e74c3c;
+}
+
+.toggle-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+.toggle-link span {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Fade-in animation for the login container */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

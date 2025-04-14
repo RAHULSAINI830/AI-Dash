@@ -1,0 +1,315 @@
+/* Container for the appointments page */
+.appointment-tab {
+    display: flex;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    gap: 10px;
+    background-color: #1c304f;
+    padding: 10px;
+  }
+  
+  /* Main content area */
+  .appointment-main {
+    flex: 1;
+    padding: 30px;
+    background: #fff;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 96vh;
+    overflow-y: auto;
+  }
+  
+  /* Header (top section) containing the title and controls */
+  .appointment-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Title styling */
+  .appointment-title {
+    font-size: 2rem;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+  }
+  
+  /* Controls next to the title */
+  .appointment-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .search-wrapper {
+    position: relative;
+  }
+  
+  .appointment-search {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 2px solid #ee5566;
+    border-radius: 10px;
+    outline: none;
+    width: 300px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .appointment-search:focus {
+    border-color: #ee5566;
+  }
+  /* AppointmentTab.css */
+
+/* ... existing styles ... */
+
+/* Style the appointment timestamp container */
+.appointment-timestamp {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Add spacing between date and time */
+  .appointment-timestamp span {
+    margin-right: 5px;
+  }
+  
+  .appointment-timestamp .time-only {
+    margin-left: 10px; /* Adjust this value as needed */
+  }
+  
+  /* Optionally, you can target the entire block with more spacing */
+  
+  .filter-btn {
+    background: #ee5566;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #fff;
+    transition: background 0.3s ease;
+  }
+  
+  .filter-btn:hover {
+    background: #0056b3;
+  }
+  
+  /* Modal overlay for filter options */
+  .filter-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  /* Modal container with enhanced UI */
+  .filter-modal {
+    background: #fff;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    padding: 25px 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    animation: popIn 0.3s forwards;
+  }
+  
+  /* Modal header */
+  .filter-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .filter-modal-header h2 {
+    font-size: 1.6rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  /* Modal body */
+  .filter-modal-body {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Preset filter buttons */
+  .filter-presets {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-presets button {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    color: #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-presets button:hover {
+    background-color: #e6f0ff;
+  }
+  
+  /* Custom date filter section */
+  .custom-date-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .date-inputs {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .date-inputs label {
+    font-size: 0.9rem;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .date-inputs input {
+    margin-top: 4px;
+    padding: 6px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Buttons in modal for date filter */
+  .date-filter-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .apply-btn,
+  .clear-btn {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.3s ease;
+  }
+  
+  .apply-btn {
+    background-color: #28a745;
+  }
+  
+  .apply-btn:hover {
+    background-color: #218838;
+  }
+  
+  .clear-btn {
+    background-color: #dc3545;
+  }
+  
+  .clear-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Appointment list styling */
+  .appointment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Each appointment card */
+  .appointment-item {
+    background: #fff;
+    padding: 20px;
+    border-left: 4px solid #007bff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Header inside each appointment card */
+  .appointment-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .phone-number {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #007bff;
+  }
+  
+  .appointment-time {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* Toggle button styling */
+  .toggle-details-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #007bff;
+  }
+  
+  /* Details inside each card */
+  .appointment-details p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .appointment-meta {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .appointment-summary {
+    color: #444;
+  }
+  
+  /* Animation keyframes */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes popIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  

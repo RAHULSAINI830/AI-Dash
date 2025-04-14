@@ -1,0 +1,11 @@
+/* src/components/DashboardLayout.css */
+.dashboard-layout {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .dashboard-content {
+    flex: 1;
+    overflow-y: auto;
+  }
+  

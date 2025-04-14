@@ -1,0 +1,158 @@
+/* src/components/Settings.css */
+.settings-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #1c304f;
+    padding: 10px;
+  }
+  
+  .settings-content {
+    flex: 1;
+    padding: 40px;
+    margin: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .settings-content h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .message {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+  
+  /* Create User Form */
+  .create-user-section {
+    margin-bottom: 40px;
+  }
+  
+  .create-user-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .user-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .user-form input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1 1 200px;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .create-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    transition: background 0.2s ease;
+  }
+  
+  .create-btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* User Table */
+  .user-table-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .user-table th,
+  .user-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .user-table th {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .user-table td input {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Action Column */
+  .action-col {
+    text-align: center;
+    width: 150px;
+  }
+  
+  .icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin: 0 5px;
+    transition: color 0.2s ease;
+  }
+  
+  .icon-btn.edit-btn {
+    color: #2196F3;
+  }
+  
+  .icon-btn.edit-btn:hover {
+    color: #1976d2;
+  }
+  
+  .icon-btn.delete-btn {
+    color: #f44336;
+  }
+  
+  .icon-btn.delete-btn:hover {
+    color: #d32f2f;
+  }
+  
+  .icon-btn.save-btn {
+    color: #4CAF50;
+  }
+  
+  .icon-btn.save-btn:hover {
+    color: #388E3C;
+  }
+  
+  .icon-btn.cancel-btn {
+    color: #9e9e9e;
+  }
+  
+  .icon-btn.cancel-btn:hover {
+    color: #757575;
+  }
+  

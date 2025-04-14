@@ -1,0 +1,152 @@
+/* src/components/Dashboard.css */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1c304f, #14203d);
+  padding: 20px;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 40px;
+  background-color: #fff;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.header-text h1 {
+  font-size: 2.75rem;
+  margin: 0;
+  color: #222;
+  font-weight: 700;
+}
+
+.header-text p {
+  font-size: 1.3rem;
+  margin: 5px 0;
+  color: #555;
+}
+
+.reload-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #4caf50;
+}
+
+.reload-btn:hover {
+  transform: rotate(360deg);
+  color: #388e3c;
+}
+
+.call-stats-section {
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stats-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.stats-heading h2 {
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+  font-weight: 600;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+}
+
+.legend-circle {
+  width: 14px;
+  height: 14px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.legend-text {
+  font-size: 1rem;
+  color: #777;
+}
+
+.stats-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-around;
+}
+
+.donut-chart {
+  flex: 1;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.metrics {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric-label {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0;
+}
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .dashboard-content {
+    padding: 20px;
+    margin: 10px;
+  }
+  .header-text h1 {
+    font-size: 2.2rem;
+  }
+  .header-text p {
+    font-size: 1.1rem;
+  }
+  .stats-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .metrics {
+    margin-top: 30px;
+  }
+}
