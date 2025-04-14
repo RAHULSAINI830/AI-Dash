@@ -11,7 +11,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     if (token && !profile) {
       axios
-        .get('http://localhost:5001/api/auth/profile', {
+        .get('/api/auth/profile', {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => setProfile(response.data))

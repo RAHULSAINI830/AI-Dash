@@ -26,7 +26,7 @@ const RegisterAdvanced = ({ goBackToLogin }) => {
         ...formData,
         admin: isAdmin,
       };
-      const res = await axios.post('http://localhost:5001/api/auth/register', payload);
+      const res = await axios.post('/api/auth/register', payload);
       setMessage(res.data.message || 'Registered successfully. Please check your email for the OTP.');
       setStep(2);
     } catch (error) {
@@ -38,7 +38,7 @@ const RegisterAdvanced = ({ goBackToLogin }) => {
   const handleOTPVerification = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/verify-registration', {
+      const res = await axios.post('/api/auth/verify-registration', {
         email: formData.email,
         otp: otp,
       });

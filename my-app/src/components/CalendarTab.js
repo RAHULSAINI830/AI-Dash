@@ -228,7 +228,7 @@ const CalendarTab = () => {
 
   // 1. Fetch configuration from the backend.
   useEffect(() => {
-    axios.get('http://localhost:5001/api/google/config')
+    axios.get('/api/google/config')
       .then((response) => {
         setConfig(response.data);
         setConfigLoaded(true);

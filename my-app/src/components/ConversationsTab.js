@@ -185,7 +185,7 @@ ${transcriptSummary}
       callTime: callTimeDate.toISOString(),
     };
     try {
-      const response = await axios.post('http://localhost:5001/api/appointments', appointmentData, {
+      const response = await axios.post('/api/appointments', appointmentData, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       console.log('Appointment record saved for call', call.call_id, response.data);
@@ -196,7 +196,7 @@ ${transcriptSummary}
 
   const checkAppointmentRecordExists = async (call) => {
     try {
-      const response = await axios.get(`http://localhost:5001/api/appointments/${call.call_id}`, {
+      const response = await axios.get(`/api/appointments/${call.call_id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       return response.data && Object.keys(response.data).length > 0;

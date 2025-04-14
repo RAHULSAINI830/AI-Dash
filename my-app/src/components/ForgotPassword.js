@@ -13,7 +13,7 @@ const ForgotPassword = ({ goBackToLogin }) => {
   const handleSendOtp = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/forgot-password', { email });
+      const res = await axios.post('/api/auth/forgot-password', { email });
       setMessage(res.data.message || 'OTP sent to your email.');
       setStep(2);
     } catch (error) {
@@ -24,7 +24,7 @@ const ForgotPassword = ({ goBackToLogin }) => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/reset-password', { email, otp, newPassword });
+      const res = await axios.post('/api/auth/reset-password', { email, otp, newPassword });
       setMessage(res.data.message || 'Password reset successful.');
       setStep(3);
     } catch (error) {
