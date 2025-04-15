@@ -18,7 +18,7 @@ const Settings = () => {
   // Fetch profile data to check if the user is an admin
   useEffect(() => {
     axios
-      .get('/api/auth/profile', {
+      .get('http://localhost:5001/api/auth/profile', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(response => setProfile(response.data))
@@ -28,7 +28,7 @@ const Settings = () => {
   // Only fetch subordinate users if the current user is admin
   const fetchUsers = () => {
     axios
-      .get('/api/admin/users', {
+      .get('http://localhost:5001/api/admin/users', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(res => setUsers(res.data.users))
@@ -49,7 +49,7 @@ const Settings = () => {
   const handleCreateSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('/api/admin/create-user', createForm, {
+      .post('http://localhost:5001/api/admin/create-user', createForm, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(res => {
@@ -73,7 +73,7 @@ const Settings = () => {
   const handleEditSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`/api/admin/update-user/${editUserId}`, editForm, {
+      .put(`http://localhost:5001/api/admin/update-user/${editUserId}`, editForm, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(res => {
@@ -88,7 +88,7 @@ const Settings = () => {
   const handleDelete = (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       axios
-        .delete(`/api/admin/delete-user/${userId}`, {
+        .delete(`http://localhost:5001/api/admin/delete-user/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(res => {

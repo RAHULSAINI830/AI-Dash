@@ -24,6 +24,8 @@ const googleRoutes = require('./routes/google');       // For updating tokens
 const googleConfigRoutes = require('./routes/googleConfig'); // For returning configuration
 const appointmentsRoutes = require('./routes/appointments'); // New appointments route
 
+
+
 app.use('/api/auth', authRoutes);
 app.use('/api/conversations', conversationRoutes);
 app.use('/api/admin', adminRoutes);

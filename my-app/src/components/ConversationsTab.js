@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import { GiRobotHelmet, GiHumanTarget } from 'react-icons/gi';
-import { FaCalendarAlt, FaFilter, FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaCalendarAlt, FaFilter, FaTimes } from 'react-icons/fa';
 import placeholderImage from '../images/Frame 762.png';
 import './ConversationsTab.css';
 import { useData } from '../DataContext';
@@ -24,6 +24,8 @@ const formatDateOnly = (timestamp) => {
   return isNaN(date.getTime()) ? 'N/A' : date.toISOString().split('T')[0];
 };
 
+const LOCAL_KEY_PROCESSED_CALLS = 'processedCalls';
+
 const ConversationsTab = () => {
   const [callsSearchTerm, setCallsSearchTerm] = useState('');
   const [transcriptSearchTerm, setTranscriptSearchTerm] = useState('');
@@ -43,16 +45,16 @@ const ConversationsTab = () => {
     return stored ? JSON.parse(stored) : null;
   });
 
-  // Added declaration for audioRef to avoid ESLint errors and ensure proper access.
+  // In-memory transcript cache to avoid re-summarizing during the session.
+  const summaryCache = useRef({});
+
+  // Audio ref for the player controls.
   const audioRef = useRef(null);
 
   useEffect(() => {
     if (!audioRef.current) return;
-
     const handleTimeUpdate = () => setCurrentTime(audioRef.current.currentTime);
     audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
-
-    // Cleanup: check if audioRef.current is valid before removing the event listener.
     return () => {
       if (audioRef.current) {
         audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
@@ -116,9 +118,6 @@ const ConversationsTab = () => {
     setShowDateFilter(!showDateFilter);
   };
 
-  const summaryCache = useRef({});
-  const savedAppointments = useRef({});
-
   const fetchTranscriptSummary = async (transcript) => {
     const prompt = `
 Read the following conversation transcript carefully. Generate a comprehensive, plain-text summary focusing especially on any appointment-related details discussed during the call, including the scheduled date, time, and overall purpose. Your summary should be a single, coherent paragraph in plain language.
@@ -156,13 +155,18 @@ Transcript Summary:
 ${transcriptSummary}
     `;
     try {
-      let response = await axios.post(
+      const response = await axios.post(
         'https://lisa-dev.zentrades.pro/lisa/chat',
         { question: prompt, model_name: 'llama3:latest' },
         { headers: { 'Content-Type': 'application/json' } }
       );
       let result = response.data;
-      result = typeof result === 'object' && result.answer ? result.answer.toString() : (typeof result === 'string' ? result : JSON.stringify(result));
+      result =
+        typeof result === 'object' && result.answer
+          ? result.answer.toString()
+          : typeof result === 'string'
+          ? result
+          : JSON.stringify(result);
       return result.trim();
     } catch (error) {
       console.error('Error fetching appointment details:', error);
@@ -185,9 +189,13 @@ ${transcriptSummary}
       callTime: callTimeDate.toISOString(),
     };
     try {
-      const response = await axios.post('/api/appointments', appointmentData, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await axios.post(
+        'http://localhost:5001/api/appointments',
+        appointmentData,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
       console.log('Appointment record saved for call', call.call_id, response.data);
     } catch (error) {
       console.error('Error saving appointment record for call', call.call_id, error);
@@ -196,9 +204,12 @@ ${transcriptSummary}
 
   const checkAppointmentRecordExists = async (call) => {
     try {
-      const response = await axios.get(`/api/appointments/${call.call_id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await axios.get(
+        `http://localhost:5001/api/appointments/${call.call_id}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }
+      );
       return response.data && Object.keys(response.data).length > 0;
     } catch (error) {
       if (error.response?.status === 404) return false;
@@ -207,33 +218,69 @@ ${transcriptSummary}
     }
   };
 
+  // -------------------- Delete All Appointments Function --------------------
+  // This function calls your backend API to delete all appointment records
+  // and also clears the persistent flag from localStorage.
+  const deleteAllAppointments = async () => {
+    try {
+      await axios.delete('http://localhost:5001/api/appointments', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      localStorage.removeItem(LOCAL_KEY_PROCESSED_CALLS);
+      console.log('All appointments deleted and persistent flags cleared.');
+    } catch (error) {
+      console.error('Error deleting appointments:', error);
+    }
+  };
+  // -------------------------------------------------------------------------
+
+  // Process calls only once by using a persistent flag stored in localStorage.
   useEffect(() => {
     const processAllCalls = async () => {
       if (!calls || !calls.length) return;
+
+      // Retrieve the persistent processed calls marker from localStorage.
+      const processedCalls =
+        JSON.parse(localStorage.getItem(LOCAL_KEY_PROCESSED_CALLS)) || {};
+
       for (const call of calls) {
         if (!call.transcript) continue;
-        if (savedAppointments.current[call.call_id]) {
-          console.log('Already processed call', call.call_id);
+
+        // If this call has been processed, skip it.
+        if (processedCalls[call.call_id]) {
+          console.log('Call already processed (persisted):', call.call_id);
           continue;
         }
+
+        // Check if the appointment record already exists in the database.
         const exists = await checkAppointmentRecordExists(call);
         if (exists) {
-          savedAppointments.current[call.call_id] = true;
+          processedCalls[call.call_id] = true;
+          localStorage.setItem(LOCAL_KEY_PROCESSED_CALLS, JSON.stringify(processedCalls));
           console.log('Appointment already exists for call', call.call_id);
           continue;
         }
+
+        // Generate transcript summary using the cache if available.
         let summary = summaryCache.current[call.call_id];
         if (!summary) {
           summary = await fetchTranscriptSummary(call.transcript);
           summaryCache.current[call.call_id] = summary;
         }
+
+        // Generate appointment details and save the record.
         const details = await fetchCorrectedAppointmentDetails(summary, call.start_time);
         await saveAppointmentRecordForCall(call, summary, details);
-        savedAppointments.current[call.call_id] = true;
+
+        // Mark this call as processed persistently.
+        processedCalls[call.call_id] = true;
+        localStorage.setItem(LOCAL_KEY_PROCESSED_CALLS, JSON.stringify(processedCalls));
         console.log('Processed and saved call', call.call_id, 'with appointment details:', details);
       }
     };
+
     processAllCalls();
+    // This useEffect runs once whenever `calls` updates.
   }, [calls]);
 
   const handleCallSelection = (call) => {
@@ -272,8 +319,7 @@ ${transcriptSummary}
       return (
         <div
           key={index}
-          className={`transcript-line ${speaker} ${index === activeLineIndex ? 'active-line' : ''
-            }`}
+          className={`transcript-line ${speaker} ${index === activeLineIndex ? 'active-line' : ''}`}
         >
           <div className="speaker-icon">
             {speaker === 'bot' ? (
@@ -402,12 +448,20 @@ ${transcriptSummary}
               </div>
             )}
           </div>
+          {/* Button to delete all appointments */}
+          <div style={{ padding: '10px', textAlign: 'center' }}>
+            <button onClick={deleteAllAppointments} style={{ padding: '8px 16px' }}>
+              Delete All Appointments
+            </button>
+          </div>
           <div className="calls-list">
             {filteredCalls.length ? (
               filteredCalls.map((call) => (
                 <div
                   key={call.call_id}
-                  className={`call-card ${selectedCall && selectedCall.call_id === call.call_id ? 'active' : ''}`}
+                  className={`call-card ${
+                    selectedCall && selectedCall.call_id === call.call_id ? 'active' : ''
+                  }`}
                   onClick={() => handleCallSelection(call)}
                 >
                   <div className="audio-btn">

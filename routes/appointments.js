@@ -51,4 +51,15 @@ router.get('/', async (req, res) => {
   }
 });
 
+// DELETE /api/appointments: Delete all appointment records.
+router.delete('/', authenticateToken, async (req, res) => {
+  try {
+    await Appointment.deleteMany({});
+    res.status(200).json({ message: 'All appointments deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting appointments:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;
