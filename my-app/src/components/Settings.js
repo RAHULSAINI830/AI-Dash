@@ -5,10 +5,7 @@ import Sidebar from './Sidebar';
 import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 import './Settings.css';
 
-const avatarColors = [
-  '#f44336', '#e91e63', '#9c27b0', '#3f51b5',
-  '#03a9f4', '#009688', '#8bc34a', '#ff9800'
-];
+const cardColors = ['#42a5f5', '#66bb6a', '#ffa726'];
 
 const Settings = () => {
   const [profile, setProfile] = useState(null);
@@ -20,43 +17,37 @@ const Settings = () => {
 
   const token = localStorage.getItem('token');
 
-  // Fetch profile data to check if the user is an admin
+  // Fetch profile to check admin status
   useEffect(() => {
     axios
-      .get('/api/auth/profile', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(response => setProfile(response.data))
+      .get('/api/auth/profile', { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => setProfile(res.data))
       .catch(err => console.error('Error fetching profile:', err));
   }, [token]);
 
-  // Only fetch subordinate users if the current user is admin
+  // Fetch subordinate users if admin
   const fetchUsers = () => {
     axios
-      .get('/api/admin/users', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get('/api/admin/users', { headers: { Authorization: `Bearer ${token}` } })
       .then(res => setUsers(res.data.users))
       .catch(err => console.error('Error fetching users:', err));
   };
 
   useEffect(() => {
-    if (profile && profile.admin) {
+    if (profile?.admin) {
       fetchUsers();
     }
   }, [profile]);
 
-  // Handle creation form changes and submission
-  const handleCreateChange = (e) => {
-    setCreateForm({ ...createForm, [e.target.name]: e.target.value });
-  };
+  // Handle create form changes
+  const handleCreateChange = (e) =>
+    setCreateForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
+  // Submit create form
   const handleCreateSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('/api/admin/create-user', createForm, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .post('/api/admin/create-user', createForm, { headers: { Authorization: `Bearer ${token}` } })
       .then(res => {
         setMessage(res.data.message);
         setCreateForm({ username: '', email: '', password: '' });
@@ -65,22 +56,21 @@ const Settings = () => {
       .catch(err => setMessage(err.response?.data?.message || 'Error creating user.'));
   };
 
-  // Handle editing a subordinate user
+  // Start editing a user
   const startEdit = (user) => {
     setEditUserId(user._id);
     setEditForm({ username: user.username, email: user.email });
   };
 
-  const handleEditChange = (e) => {
-    setEditForm({ ...editForm, [e.target.name]: e.target.value });
-  };
+  // Handle edit form changes
+  const handleEditChange = (e) =>
+    setEditForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
+  // Submit edit form
   const handleEditSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`/api/admin/update-user/${editUserId}`, editForm, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .put(`/api/admin/update-user/${editUserId}`, editForm, { headers: { Authorization: `Bearer ${token}` } })
       .then(res => {
         setMessage(res.data.message);
         setEditUserId(null);
@@ -89,22 +79,19 @@ const Settings = () => {
       .catch(err => setMessage(err.response?.data?.message || 'Error updating user.'));
   };
 
-  // Handle deletion of a subordinate user
-  const handleDelete = (userId) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      axios
-        .delete(`/api/admin/delete-user/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(res => {
-          setMessage(res.data.message);
-          fetchUsers();
-        })
-        .catch(err => setMessage(err.response?.data?.message || 'Error deleting user.'));
-    }
+  // Delete a user
+  const handleDelete = (id) => {
+    if (!window.confirm('Delete this user?')) return;
+    axios
+      .delete(`/api/admin/delete-user/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => {
+        setMessage(res.data.message);
+        fetchUsers();
+      })
+      .catch(err => setMessage(err.response?.data?.message || 'Error deleting user.'));
   };
 
-  // If profile data is not loaded yet
+  // Loading state
   if (!profile) {
     return (
       <div className="settings-layout">
@@ -116,7 +103,7 @@ const Settings = () => {
     );
   }
 
-  // If the logged-in user is not an admin, display an access-denied message.
+  // Access denied for non-admin
   if (!profile.admin) {
     return (
       <div className="settings-layout">
@@ -173,53 +160,73 @@ const Settings = () => {
           <h2>Subordinate Users</h2>
           {users.length > 0 ? (
             <div className="user-cards-grid">
-              {users.map((user, idx) => (
-                <div key={user._id} className="user-card">
-                  <div
-                    className="avatar"
-                    style={{ backgroundColor: avatarColors[idx % avatarColors.length] }}
-                  >
-                    {user.username.charAt(0).toUpperCase()}
+              {users.map((u, i) => (
+                <div
+                  key={u._id}
+                  className="user-card"
+                  style={{ backgroundColor: cardColors[i % cardColors.length] }}
+                >
+                  <div className="user-header">
+                    <div className="avatar">
+                      {u.username.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="user-info">
+                      {editUserId === u._id ? (
+                        <>
+                          <input
+                            type="text"
+                            name="username"
+                            value={editForm.username}
+                            onChange={handleEditChange}
+                          />
+                          <input
+                            type="email"
+                            name="email"
+                            value={editForm.email}
+                            onChange={handleEditChange}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <p className="user-name">{u.username}</p>
+                          <p className="user-email">{u.email}</p>
+                        </>
+                      )}
+                    </div>
                   </div>
 
-                  {editUserId === user._id ? (
-                    <div className="user-info">
-                      <input
-                        type="text"
-                        name="username"
-                        value={editForm.username}
-                        onChange={handleEditChange}
-                      />
-                      <input
-                        type="email"
-                        name="email"
-                        value={editForm.email}
-                        onChange={handleEditChange}
-                      />
-                    </div>
-                  ) : (
-                    <div className="user-info">
-                      <p className="user-name">{user.username}</p>
-                      <p className="user-email">{user.email}</p>
-                    </div>
-                  )}
-
                   <div className="user-actions">
-                    {editUserId === user._id ? (
+                    {editUserId === u._id ? (
                       <>
-                        <button onClick={handleEditSubmit} title="Save" className="icon-btn save-btn">
+                        <button
+                          onClick={handleEditSubmit}
+                          title="Save"
+                          className="icon-btn save-btn"
+                        >
                           <FaSave />
                         </button>
-                        <button onClick={() => setEditUserId(null)} title="Cancel" className="icon-btn cancel-btn">
+                        <button
+                          onClick={() => setEditUserId(null)}
+                          title="Cancel"
+                          className="icon-btn cancel-btn"
+                        >
                           <FaTimes />
                         </button>
                       </>
                     ) : (
                       <>
-                        <button onClick={() => startEdit(user)} title="Edit" className="icon-btn edit-btn">
+                        <button
+                          onClick={() => startEdit(u)}
+                          title="Edit"
+                          className="icon-btn edit-btn"
+                        >
                           <FaEdit />
                         </button>
-                        <button onClick={() => handleDelete(user._id)} title="Delete" className="icon-btn delete-btn">
+                        <button
+                          onClick={() => handleDelete(u._id)}
+                          title="Delete"
+                          className="icon-btn delete-btn"
+                        >
                           <FaTrash />
                         </button>
                       </>
