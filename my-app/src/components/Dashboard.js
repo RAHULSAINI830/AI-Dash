@@ -1,3 +1,4 @@
+// src/components/Dashboard.js
 import React, { useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
 import {
@@ -10,7 +11,7 @@ import {
   PointElement,
   LineElement
 } from 'chart.js';
-import { FaSync } from 'react-icons/fa';
+import { FaSync, FaPhoneAlt, FaCalendarCheck, FaPhoneSlash, FaQuestion } from 'react-icons/fa';
 import Sidebar from './Sidebar';
 import { useData } from '../DataContext';
 import './Dashboard.css';
@@ -54,13 +55,25 @@ ChartJS.register(
 
 const Dashboard = () => {
   const { profile, calls } = useData();
-  const [metrics, setMetrics] = useState({ appointment: 0, callback: 0, query: 0, accepted: 0, rejected: 0 });
+  const [metrics, setMetrics] = useState({
+    appointment: 0,
+    callback: 0,
+    query: 0,
+    accepted: 0,
+    rejected: 0
+  });
 
   // Fetch all counts
   useEffect(() => {
     fetch('/api/appointments/metrics')
       .then((res) => res.json())
-      .then(({ appointmentCount, callbackCount, queryCount, acceptedCount, rejectedCount }) => {
+      .then(({
+        appointmentCount,
+        callbackCount,
+        queryCount,
+        acceptedCount,
+        rejectedCount
+      }) => {
         setMetrics({
           appointment: appointmentCount,
           callback: callbackCount,
@@ -92,7 +105,6 @@ const Dashboard = () => {
     datasets: [
       {
         data: [metrics.appointment, metrics.callback, metrics.query],
-        backgroundColor: ['#4CAF50', '#FFC107', '#2196F3'],
         borderWidth: 0,
         cutout: '60%'
       }
@@ -139,7 +151,11 @@ const Dashboard = () => {
             <h1>Dashboard</h1>
             <p>Welcome, {profile.username}</p>
           </div>
-          <button className="reload-btn" onClick={handleReload} title="Reload Data">
+          <button
+            className="reload-btn"
+            onClick={handleReload}
+            title="Reload Data"
+          >
             <FaSync size={20} />
           </button>
         </header>
@@ -153,19 +169,23 @@ const Dashboard = () => {
           </div>
 
           <div className="cards-section">
-            <div className="overview-card">
+            <div className="overview-card card-total">
+              <FaPhoneAlt className="card-icon" />
               <p className="overview-label">Total Calls</p>
               <p className="overview-value">{totalCalls}</p>
             </div>
-            <div className="overview-card">
+            <div className="overview-card card-appointment">
+              <FaCalendarCheck className="card-icon" />
               <p className="overview-label">Appointment Calls</p>
               <p className="overview-value">{metrics.appointment}</p>
             </div>
-            <div className="overview-card">
+            <div className="overview-card card-callback">
+              <FaPhoneSlash className="card-icon" />
               <p className="overview-label">Callback Calls</p>
               <p className="overview-value">{metrics.callback}</p>
             </div>
-            <div className="overview-card">
+            <div className="overview-card card-query">
+              <FaQuestion className="card-icon" />
               <p className="overview-label">Query Calls</p>
               <p className="overview-value">{metrics.query}</p>
             </div>
