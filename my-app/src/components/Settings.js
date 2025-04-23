@@ -5,6 +5,11 @@ import Sidebar from './Sidebar';
 import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 import './Settings.css';
 
+const avatarColors = [
+  '#f44336', '#e91e63', '#9c27b0', '#3f51b5',
+  '#03a9f4', '#009688', '#8bc34a', '#ff9800'
+];
+
 const Settings = () => {
   const [profile, setProfile] = useState(null);
   const [users, setUsers] = useState([]);
@@ -130,103 +135,102 @@ const Settings = () => {
       <div className="settings-content">
         <h1>User Management</h1>
         {message && <p className="message">{message}</p>}
+
         <div className="create-user-section">
           <h2>Create New User</h2>
           <form onSubmit={handleCreateSubmit} className="user-form">
-            <input 
-              type="text" 
-              name="username" 
-              placeholder="Username" 
-              value={createForm.username} 
-              onChange={handleCreateChange} 
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={createForm.username}
+              onChange={handleCreateChange}
               required
             />
-            <input 
-              type="email" 
-              name="email" 
-              placeholder="Email" 
-              value={createForm.email} 
-              onChange={handleCreateChange} 
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={createForm.email}
+              onChange={handleCreateChange}
               required
             />
-            <input 
-              type="password" 
-              name="password" 
-              placeholder="Password" 
-              value={createForm.password} 
-              onChange={handleCreateChange} 
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={createForm.password}
+              onChange={handleCreateChange}
               required
             />
-            <button type="submit" className="btn create-btn">Create User</button>
+            <button type="submit" className="btn create-btn">
+              Create User
+            </button>
           </form>
         </div>
-        <div className="user-table-section">
+
+        <div className="user-cards-section">
           <h2>Subordinate Users</h2>
-          <table className="user-table">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th className="action-col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map(user => (
-                <tr key={user._id}>
-                  <td>
-                    {editUserId === user._id ? (
-                      <input 
-                        type="text" 
-                        name="username" 
-                        value={editForm.username} 
-                        onChange={handleEditChange} 
+          {users.length > 0 ? (
+            <div className="user-cards-grid">
+              {users.map((user, idx) => (
+                <div key={user._id} className="user-card">
+                  <div
+                    className="avatar"
+                    style={{ backgroundColor: avatarColors[idx % avatarColors.length] }}
+                  >
+                    {user.username.charAt(0).toUpperCase()}
+                  </div>
+
+                  {editUserId === user._id ? (
+                    <div className="user-info">
+                      <input
+                        type="text"
+                        name="username"
+                        value={editForm.username}
+                        onChange={handleEditChange}
                       />
-                    ) : (
-                      user.username
-                    )}
-                  </td>
-                  <td>
-                    {editUserId === user._id ? (
-                      <input 
-                        type="email" 
-                        name="email" 
-                        value={editForm.email} 
-                        onChange={handleEditChange} 
+                      <input
+                        type="email"
+                        name="email"
+                        value={editForm.email}
+                        onChange={handleEditChange}
                       />
-                    ) : (
-                      user.email
-                    )}
-                  </td>
-                  <td className="action-col">
+                    </div>
+                  ) : (
+                    <div className="user-info">
+                      <p className="user-name">{user.username}</p>
+                      <p className="user-email">{user.email}</p>
+                    </div>
+                  )}
+
+                  <div className="user-actions">
                     {editUserId === user._id ? (
                       <>
-                        <button onClick={handleEditSubmit} className="icon-btn save-btn" title="Save">
+                        <button onClick={handleEditSubmit} title="Save" className="icon-btn save-btn">
                           <FaSave />
                         </button>
-                        <button onClick={() => setEditUserId(null)} className="icon-btn cancel-btn" title="Cancel">
+                        <button onClick={() => setEditUserId(null)} title="Cancel" className="icon-btn cancel-btn">
                           <FaTimes />
                         </button>
                       </>
                     ) : (
                       <>
-                        <button onClick={() => startEdit(user)} className="icon-btn edit-btn" title="Edit">
+                        <button onClick={() => startEdit(user)} title="Edit" className="icon-btn edit-btn">
                           <FaEdit />
                         </button>
-                        <button onClick={() => handleDelete(user._id)} className="icon-btn delete-btn" title="Delete">
+                        <button onClick={() => handleDelete(user._id)} title="Delete" className="icon-btn delete-btn">
                           <FaTrash />
                         </button>
                       </>
                     )}
-                  </td>
-                </tr>
+                  </div>
+                </div>
               ))}
-              {users.length === 0 && (
-                <tr>
-                  <td colSpan="3" style={{ textAlign: 'center' }}>No users found.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+            </div>
+          ) : (
+            <p>No users found.</p>
+          )}
         </div>
       </div>
     </div>
