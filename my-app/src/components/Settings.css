@@ -19,7 +19,7 @@
 .settings-content h1 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #333;
+  color: #ffff;
 }
 
 .message {
@@ -70,8 +70,8 @@
 .user-cards-section h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  text-align: center;
-  color: #333;
+  
+  color: #fff;
 }
 .user-cards-grid {
   display: grid;
