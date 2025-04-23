@@ -191,6 +191,7 @@
   background: linear-gradient(135deg, #ab47bc, #8e24aa);
 }
 
+/* Ensure labels & values remain white */
 .overview-label,
 .overview-value {
   color: #fff;

@@ -25,16 +25,16 @@ const centerTextPlugin = {
     const { ctx, width, height } = chart;
     const { label = '', text = '' } = centerText;
     ctx.save();
-    // Draw label
+    // Draw label in white
     ctx.font = '1em sans-serif';
-    ctx.fillStyle = '#777';
+    ctx.fillStyle = '#fff';
     ctx.textBaseline = 'middle';
     const labelWidth = ctx.measureText(label).width;
     ctx.fillText(label, (width - labelWidth) / 2, height / 2 - 10);
 
-    // Draw value
+    // Draw value in white
     ctx.font = '1.5em sans-serif';
-    ctx.fillStyle = '#333';
+    ctx.fillStyle = '#fff';
     const valueWidth = ctx.measureText(text).width;
     ctx.fillText(text, (width - valueWidth) / 2, height / 2 + 15);
     ctx.restore();
@@ -99,12 +99,17 @@ const Dashboard = () => {
   const totalCalls = calls.length;
   const handleReload = () => window.location.reload();
 
-  // Donut chart: outer breakdown, center text shows total
+  // Donut chart: segments match card colors
   const donutData = {
     labels: ['Appointments', 'Callback', 'Query'],
     datasets: [
       {
         data: [metrics.appointment, metrics.callback, metrics.query],
+        backgroundColor: [
+          '#43a047',  // card-appointment main
+          '#fb8c00',  // card-callback main
+          '#8e24aa'   // card-query main
+        ],
         borderWidth: 0,
         cutout: '60%'
       }
@@ -119,7 +124,7 @@ const Dashboard = () => {
     maintainAspectRatio: false
   };
 
-  // Line chart for accepted vs rejected
+  // Line chart for accepted vs rejected (use appointment color)
   const lineData = {
     labels: ['Accepted', 'Rejected'],
     datasets: [
@@ -128,6 +133,7 @@ const Dashboard = () => {
         data: [metrics.accepted, metrics.rejected],
         tension: 0.4,
         fill: false,
+        borderColor: '#43a047',
         borderWidth: 2
       }
     ]
@@ -151,16 +157,12 @@ const Dashboard = () => {
             <h1>Dashboard</h1>
             <p>Welcome, {profile.username}</p>
           </div>
-          <button
-            className="reload-btn"
-            onClick={handleReload}
-            title="Reload Data"
-          >
+          <button className="reload-btn" onClick={handleReload} title="Reload Data">
             <FaSync size={20} />
           </button>
         </header>
 
-        {/* Overview Section: Chart (40%) + Cards (60%) */}
+        {/* Overview Section: Chart + Cards */}
         <section className="overview-section">
           <div className="chart-section">
             <div className="chart-wrapper">
@@ -192,7 +194,7 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* Status Trend Section: Accepted vs Rejected */}
+        {/* Status Trend Section */}
         <section className="status-graph-section">
           <h2 className="status-graph-title">Appointment Status Trend</h2>
           <div className="status-graph-wrapper">
