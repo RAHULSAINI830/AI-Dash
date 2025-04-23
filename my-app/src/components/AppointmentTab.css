@@ -295,6 +295,67 @@
   .appointment-summary {
     color: #444;
   }
+  /* AppointmentTab.css */
+  .appointment-item {
+    border: 1px solid #ddd;
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 4px;
+  }
+  
+  .appointment-appointment {
+    border-left: 4px solid #4CAF50; /* Green border for appointment calls */
+  }
+  
+  .appointment-non {
+    border-left: 4px solid #FF4D4F; /* Red border for non-appointment calls */
+  }
+  
+  .status-label span {
+    font-weight: bold;
+    padding: 0.2em 0.5em;
+    border-radius: 4px;
+  }
+  
+  .accepted-label {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .rejected-label {
+    background-color: #FF4D4F;
+    color: white;
+  }
+  
+  .pending-label {
+    background-color: #FFA500;
+    color: white;
+  }
+  
+  .action-buttons {
+    margin-top: 1em;
+  }
+  
+  .accept-btn, .reject-btn {
+    padding: 0.5em 1em;
+    margin-right: 0.5em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .accept-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .reject-btn {
+    background-color: #FF4D4F;
+    color: white;
+  }
+  
+  
+
   
   /* Animation keyframes */
   @keyframes fadeIn {

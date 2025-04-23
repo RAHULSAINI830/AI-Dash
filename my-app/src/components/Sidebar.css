@@ -17,10 +17,11 @@
     display: flex;
     align-items: center;
     margin-bottom: 30px;
-    border: 1px solid;
+    
     padding: 10px;
     border-radius: 5px;
-    border-color: #ee55664d;
+    
+    background-color: whitesmoke;
   }
   
   .profile-left {
@@ -38,7 +39,7 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    background: linear-gradient(90deg, #2E1658, #121212);
     color: #fff;
     display: flex;
     align-items: center;
@@ -87,7 +88,7 @@
   }
   
   .nav-item.active {
-    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    background: linear-gradient(90deg, #2E1658, #121212);
     color: #fff;
   }
   

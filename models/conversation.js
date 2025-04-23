@@ -7,6 +7,7 @@ const ConversationSchema = new mongoose.Schema({
   transcript: { type: String },
   start_time: { type: Date },
   recording_url: { type: String },
+  processed    : { type: Boolean, default: false }, 
   // Add any additional fields you need
 });
 

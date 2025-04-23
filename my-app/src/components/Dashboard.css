@@ -129,6 +129,136 @@
   color: #333;
   margin-top: 10px;
 }
+/* Overview Section Layout */
+.overview-section {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Chart container takes 40% */
+.chart-section {
+  flex: 0 0 40%;
+  position: relative;
+  height: 300px; /* adjust for desired chart size */
+}
+
+.chart-wrapper {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
+
+/* Cards container takes 60%, grid of 2x2 */
+.cards-section {
+  flex: 0 0 60%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Reuse existing card styles */
+.overview-card {
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.overview-label {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0;
+}
+
+.overview-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Status Trend Section */
+.status-graph-section {
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+}
+
+.status-graph-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.status-graph-wrapper {
+  position: relative;
+  height: 250px;
+}
+
+/* Ensure overview-section and cards-section remain as defined before */
+
+
+/* Responsive: stack on smaller screens */
+@media screen and (max-width: 768px) {
+  .overview-section {
+    flex-direction: column;
+  }
+  .chart-section {
+    flex: none;
+    height: 250px;
+  }
+  .cards-section {
+    grid-template-columns: 1fr;
+  }
+}
+/* Latest Calls Section */
+.latest-calls-section {
+  margin-top: 40px;
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.latest-calls-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.latest-calls-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.latest-call-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.latest-call-item:last-child {
+  border-bottom: none;
+}
+
+.call-time {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.call-number {
+  font-weight: 500;
+  color: #333;
+}
+
+
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
