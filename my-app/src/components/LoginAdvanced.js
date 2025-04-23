@@ -20,7 +20,7 @@ const LoginAdvanced = ({ toggleView, toggleForgot }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/login', {
+      const res = await axios.post('/api/auth/login', {
         ...formData,
       });
       localStorage.setItem('token', res.data.token);

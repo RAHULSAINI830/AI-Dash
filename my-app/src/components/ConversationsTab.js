@@ -111,7 +111,7 @@ const ConversationsTab = () => {
         ? { phone_number: call.phone_number_from, lisaExtractedDateTime: lisaISO }
         : { call_id: call.call_id };
 
-      const { data } = await axios.get('http://localhost:5001/api/appointments/exists', {
+      const { data } = await axios.get('/api/appointments/exists', {
         params,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
@@ -260,7 +260,7 @@ ${summary}`.trim();
     };
 
     try {
-      await axios.post('http://localhost:5001/api/appointments', payload, {
+      await axios.post('/api/appointments', payload, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       console.log('Appointment saved for', call.call_id);

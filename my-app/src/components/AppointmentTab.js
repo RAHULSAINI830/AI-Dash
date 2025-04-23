@@ -86,7 +86,7 @@ const AppointmentTab = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/appointments', {
+        const response = await axios.get('/api/appointments', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         let fetched = response.data;
@@ -199,7 +199,7 @@ const AppointmentTab = () => {
   
       const calendarEventId = evRes.result.id;
       const resp = await axios.put(
-        `http://localhost:5001/api/appointments/status/${apt._id}`,
+        `/api/appointments/status/${apt._id}`,
         { appointmentStatus: 'accepted', calendarEventId },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
@@ -220,7 +220,7 @@ const AppointmentTab = () => {
   const handleRejectAppointment = async (apt) => {
     try {
       const response = await axios.put(
-        `http://localhost:5001/api/appointments/status/${apt._id}`,
+        `/api/appointments/status/${apt._id}`,
         { appointmentStatus: 'rejected' },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
