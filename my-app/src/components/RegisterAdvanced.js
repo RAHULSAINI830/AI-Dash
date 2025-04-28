@@ -70,12 +70,14 @@ const RegisterAdvanced = ({ goBackToLogin }) => {
           <form className="register-form" onSubmit={handleRegistrationSubmit}>
             <div className="input-group">
               <label htmlFor="username">
-                <i className="fa-regular fa-user label-icon"></i>
+                <i className="fa-solid fa-user label-icon"></i>
+                
                 Username
               </label>
               <input
                 type="text"
                 id="username"
+                name="username" 
                 placeholder="Enter username"
                 value={formData.username}
                 onChange={handleChange}
@@ -85,12 +87,13 @@ const RegisterAdvanced = ({ goBackToLogin }) => {
 
             <div className="input-group">
               <label htmlFor="email">
-                <i className="fa-regular fa-envelope label-icon"></i>
+                <i className="fas fa-envelope label-icon"></i>
                 Email
               </label>
               <input
                 type="email"
                 id="email"
+                name="email"
                 placeholder="Enter email"
                 value={formData.email}
                 onChange={handleChange}
@@ -100,13 +103,14 @@ const RegisterAdvanced = ({ goBackToLogin }) => {
 
             <div className="input-group password-group">
               <label htmlFor="password">
-                <i className="fa-regular fa-lock label-icon"></i>
+                <i className="fas fa-lock label-icon"></i>
                 Password
               </label>
               <div className="password-input-wrapper">
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
+                  name="password" 
                   placeholder="Enter password"
                   value={formData.password}
                   onChange={handleChange}
@@ -145,6 +149,7 @@ const RegisterAdvanced = ({ goBackToLogin }) => {
                 <input
                   type="text"
                   id="model_id"
+                  name="model_id" 
                   placeholder="Enter model ID"
                   value={formData.model_id}
                   onChange={handleChange}
@@ -194,6 +199,13 @@ const RegisterAdvanced = ({ goBackToLogin }) => {
             <span onClick={goBackToLogin}>Back to Login</span>
           )}
         </p>
+        <div className="footer-divider"></div>
+
+        {/* ---------- AI footer line ---------- */}
+        <div className="ai-footer">
+          <i className="fas fa-robot ai-icon"></i>
+          Powered by&nbsp;Zentrades&nbsp;AI&nbsp;technology
+        </div>
       </div>
     </div>
   );
