@@ -128,7 +128,7 @@ const ConversationsTab = () => {
       const { data } = await axios.post(
         'https://lisa-dev.zentrades.pro/lisa/chat',
         { question: prompt, model_name: 'llama3:latest' },
-        { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin':"*" } }
+        { headers: { 'Content-Type': 'application/json' } }
       );
       return typeof data === 'object' && data.answer ? data.answer.trim()
         : typeof data === 'string' ? data.trim()
@@ -189,7 +189,7 @@ ${summary}
       const { data } = await axios.post(
         'https://lisa-dev.zentrades.pro/lisa/chat',
         { question: prompt, model_name: 'llama3:latest' },
-        { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin':"*"  } }
+        { headers: { 'Content-Type': 'application/json' } }
       );
       return typeof data === 'object' && data.answer
         ? data.answer.trim()
@@ -227,7 +227,7 @@ ${summary}`.trim();
       const { data } = await axios.post(
         'https://lisa-dev.zentrades.pro/lisa/chat',
         { question: prompt, model_name: 'llama3:latest' },
-        { headers: { 'Content-Type': 'application/json' , 'Access-Control-Allow-Origin':"*" } }
+        { headers: { 'Content-Type': 'application/json' } }
       );
       const raw = typeof data === 'object' && data.answer ? data.answer : data;
       const cat = String(raw).trim().toLowerCase();
